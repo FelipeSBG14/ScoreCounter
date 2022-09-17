@@ -1,0 +1,58 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:score_count/data/dummy_players.dart';
+import '../models/player.dart';
+
+class Players with ChangeNotifier {
+  final Map<String, Player> _items = {...DUMMY_PLAYERS};
+
+  List<Player> get all {
+    return [..._items.values];
+  }
+
+  int get count {
+    return _items.length;
+  }
+
+  Player byIndex(int i) {
+    return _items.values.elementAt(i);
+  }
+
+  void put(Player player) {
+    if (player == null) {
+      return;
+    }
+
+    if (player.id != null &&
+        player.id.trim().isNotEmpty &&
+        _items.containsKey(player.id)) {
+      _items.update(
+        player.id,
+        (_) => Player(
+          id: player.id,
+          name: player.name,
+          color: player.color,
+        ),
+      );
+    } else {
+      final id = Random().nextDouble().toString();
+      _items.putIfAbsent(
+        '1000',
+        () => Player(
+          id: id,
+          color: player.color,
+          name: player.name,
+        ),
+      );
+    }
+    notifyListeners();
+  }
+
+  void remove(Player player) {
+    if (player != null && player.id != null) {
+      _items.remove(player.id);
+      notifyListeners();
+    }
+  }
+}
