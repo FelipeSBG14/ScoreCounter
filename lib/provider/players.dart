@@ -1,11 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:score_count/data/dummy_players.dart';
 import '../models/player.dart';
 
 class Players with ChangeNotifier {
-  final Map<String, Player> _items = {...DUMMY_PLAYERS};
+  final Map<String, Player> _items = {};
 
   List<Player> get all {
     return [..._items.values];
@@ -33,16 +32,18 @@ class Players with ChangeNotifier {
           id: player.id,
           name: player.name,
           color: player.color,
+          points: player.points,
         ),
       );
     } else {
       final id = Random().nextDouble().toString();
       _items.putIfAbsent(
-        '1000',
+        id,
         () => Player(
           id: id,
           color: player.color,
           name: player.name,
+          points: player.points,
         ),
       );
     }

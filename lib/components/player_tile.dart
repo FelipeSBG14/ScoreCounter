@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 import '../models/player.dart';
+import '../provider/players.dart';
 import '../routes/app_routes.dart';
 
 class PlayerTile extends StatelessWidget {
   final Player player;
-  final int tamanho;
-  PlayerTile(this.player, this.tamanho);
-  late double height;
 
+  PlayerTile(this.player);
+  late double height = 0;
   @override
   Widget build(BuildContext context) {
-    if (tamanho == 1) {
+    final Players players = Provider.of(
+      context,
+    );
+
+    if (players.count == 1) {
       height = 1;
     }
-    if (tamanho == 2) {
+    if (players.count == 2) {
       height = 0.5;
     }
-    if (tamanho == 3) {
-      height = 0.34;
+    if (players.count == 3) {
+      height = 0.3;
     }
-    if (tamanho >= 4) {
+    if (players.count >= 4) {
       height = 0.23;
     }
+
     return InkWell(
       onLongPress: () {
         showDialog(
@@ -43,7 +49,7 @@ class PlayerTile extends StatelessWidget {
                       style: ElevatedButton.styleFrom(primary: Colors.green),
                       child: Text("Editar"),
                       onPressed: () {
-                        Navigator.of(context).popAndPushNamed(
+                        Navigator.of(context).pushNamed(
                           AppRoutes.PLAYER_FORM,
                           arguments: player,
                         );
@@ -96,6 +102,14 @@ class PlayerTile extends StatelessWidget {
                       Icons.add,
                       color: Colors.white,
                     )),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        AppRoutes.PLAYER_FORM,
+                        arguments: player,
+                      );
+                    },
+                    icon: Icon(Icons.edit))
               ],
             )
           ],

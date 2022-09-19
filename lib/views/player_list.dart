@@ -10,18 +10,15 @@ import 'package:score_count/routes/app_routes.dart';
 import '../provider/players.dart';
 
 class PlayerList extends StatelessWidget {
-
-  
   const PlayerList({Key? key}) : super(key: key);
-  
+
+
+
   @override
   Widget build(BuildContext context) {
-    
     final Players players = Provider.of(
       context,
     );
-    
-    final tamanho = players.count;
     return Scaffold(
       appBar: AppBar(
         title: Text('Marcador de Pontos'),
@@ -33,11 +30,17 @@ class PlayerList extends StatelessWidget {
               icon: Icon(Icons.add))
         ],
       ),
-      body: ListView.builder(
-        itemCount: players.count,
-        itemBuilder: (ctx, i) => PlayerTile(players.byIndex(i), tamanho),
-      ),
+      body: players.count == 0
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text('Nenhum jogador adicionado :(')],
+              ),
+            )
+          : ListView.builder(
+              itemCount: players.count,
+              itemBuilder: (ctx, i) => PlayerTile(players.byIndex(i)),
+            ),
     );
   }
-  
 }
