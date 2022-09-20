@@ -1,10 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:score_count/data/dummy_players.dart';
 import '../models/player.dart';
 
 class Players with ChangeNotifier {
-  final Map<String, Player> _items = {};
+  final Map<String, Player> _items = {...DUMMY_PLAYERS};
 
   List<Player> get all {
     return [..._items.values];

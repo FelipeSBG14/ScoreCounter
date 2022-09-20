@@ -8,7 +8,8 @@ import '../models/player.dart';
 import '../provider/players.dart';
 
 class PlayerForm extends StatelessWidget {
-  
+  PlayerForm({super.key});
+
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {};
   final TextEditingController _controllerName = TextEditingController();
@@ -23,13 +24,9 @@ class PlayerForm extends StatelessWidget {
     }
   }
 
-
-  @override void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-  
   Widget build(BuildContext context) {
-
+    final player = ModalRoute.of(context)!.settings.arguments as Player;
+    loadFormData(player);
     return Scaffold(
       appBar: AppBar(
         title: Text('Player Form'),
@@ -69,7 +66,7 @@ class PlayerForm extends StatelessWidget {
       _form.currentState!.save();
       Provider.of<Players>(context, listen: false).put(
         Player(
-          id: '',
+          id: '', //teste
           name: _formData['name'],
           color: Colors.black,
           points: 3,
