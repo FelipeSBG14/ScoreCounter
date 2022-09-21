@@ -5,18 +5,19 @@ import 'package:score_count/data/dummy_players.dart';
 import '../models/player.dart';
 
 class Players with ChangeNotifier {
-  final Map<String, Player> _items = {...DUMMY_PLAYERS};
+  late Map<String, Player> items = {};
+
 
   List<Player> get all {
-    return [..._items.values];
+    return [...items.values];
   }
 
   int get count {
-    return _items.length;
+    return items.length;
   }
 
   Player byIndex(int i) {
-    return _items.values.elementAt(i);
+    return items.values.elementAt(i);
   }
 
   void put(Player player) {
@@ -26,8 +27,8 @@ class Players with ChangeNotifier {
 
     if (player.id != null &&
         player.id.trim().isNotEmpty &&
-        _items.containsKey(player.id)) {
-      _items.update(
+        items.containsKey(player.id)) {
+      items.update(
         player.id,
         (_) => Player(
           id: player.id,
@@ -38,7 +39,7 @@ class Players with ChangeNotifier {
       );
     } else {
       final id = Random().nextDouble().toString();
-      _items.putIfAbsent(
+      items.putIfAbsent(
         id,
         () => Player(
           id: id,
@@ -53,8 +54,12 @@ class Players with ChangeNotifier {
 
   void remove(Player player) {
     if (player != null && player.id != null) {
-      _items.remove(player.id);
+      items.remove(player.id);
+
       notifyListeners();
     }
+    
   }
+
+  
 }

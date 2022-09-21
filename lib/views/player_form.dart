@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import '../models/player.dart';
 import '../provider/players.dart';
+import 'dart:math' as math;
 
 class PlayerForm extends StatelessWidget {
   PlayerForm({super.key});
@@ -25,8 +26,8 @@ class PlayerForm extends StatelessWidget {
   }
 
   Widget build(BuildContext context) {
-    final player = ModalRoute.of(context)!.settings.arguments as Player;
-    loadFormData(player);
+/*     final player = ModalRoute.of(context)!.settings.arguments as Player;
+    loadFormData(player); */
     return Scaffold(
       appBar: AppBar(
         title: Text('Player Form'),
@@ -68,8 +69,9 @@ class PlayerForm extends StatelessWidget {
         Player(
           id: '', //teste
           name: _formData['name'],
-          color: Colors.black,
-          points: 3,
+          color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+              .withOpacity(1.0),
+          points: 0,
         ),
       );
       Navigator.of(context).pop();

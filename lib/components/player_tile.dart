@@ -7,11 +7,18 @@ import '../models/player.dart';
 import '../provider/players.dart';
 import '../routes/app_routes.dart';
 
-class PlayerTile extends StatelessWidget {
+class PlayerTile extends StatefulWidget {
   final Player player;
 
   PlayerTile(this.player);
+
+  @override
+  State<PlayerTile> createState() => _PlayerTileState();
+}
+
+class _PlayerTileState extends State<PlayerTile> {
   late double height = 0;
+
   @override
   Widget build(BuildContext context) {
     final Players players = Provider.of(
@@ -19,10 +26,10 @@ class PlayerTile extends StatelessWidget {
     );
 
     if (players.count == 1) {
-      height = 1;
+      height = 0.9;
     }
     if (players.count == 2) {
-      height = 0.5;
+      height = 0.45;
     }
     if (players.count == 3) {
       height = 0.3;
@@ -31,88 +38,108 @@ class PlayerTile extends StatelessWidget {
       height = 0.23;
     }
 
-    return InkWell(
-      onLongPress: () {
-        showDialog(
-          barrierDismissible: true,
-          context: context,
-          builder: (BuildContext context) {
-            // retorna um objeto do tipo Dialog
-            return AlertDialog(
-              title: Text('Jogador ' + player.name),
-              content: Text("Deseja deletar ou editar esse jogador ?"),
-              actions: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.green),
-                      child: Text("Editar"),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.PLAYER_FORM,
-                          arguments: player,
-                        );
-                      },
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
-                      child: Text("Deletar"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                )
-              ],
-            );
-          },
-        );
-      },
-      child: Container(
-        height: MediaQuery.of(context).size.height * height,
-        color: player.color,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              player.name,
-              style: TextStyle(color: Colors.white),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      print('Mais um ponto pro ${player.name}' +
-                          '${player.points}');
-                    },
-                    icon: Icon(
-                      Icons.remove,
-                      color: Colors.white,
-                    )),
-                Text(
-                  '${player.points}',
-                  style: TextStyle(color: Colors.white),
+    return SizedBox(
+      child: InkWell(
+        onLongPress: () {
+          showDialog(
+            barrierDismissible: true,
+            context: context,
+            builder: (BuildContext context) {
+              // retorna um objeto do tipo Dialog
+              return AlertDialog(
+                title: Text('Jogador ' + widget.player.name),
+                content: Text("Deseja deletar ou editar esse jogador ?"),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.green),
+                        child: Text("Editar"),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            AppRoutes.PLAYER_FORM,
+                            arguments: widget.player,
+                          );
+                        },
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.red),
+                        child: Text("Deletar"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  )
+                ],
+              );
+            },
+          );
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height * height,
+          color: widget.player.color,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.grey,
+                  ),
+                  child: Text(
+                    widget.player.name,
+                    style: TextStyle(color: Colors.white, shadows: [
+                      Shadow(
+                          blurRadius: 2,
+                          color: Colors.black,
+                          offset: Offset.zero),
+                    ]),
+                  ),
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    )),
-                IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(
-                        AppRoutes.PLAYER_FORM,
-                        arguments: player,
-                      );
-                    },
-                    icon: Icon(Icons.edit))
-              ],
-            )
-          ],
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: Colors.grey,
+                ),
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.player.points -= 1;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                        )),
+                    Text(
+                      '${widget.player.points}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          setState(() {
+                            widget.player.points += 1;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

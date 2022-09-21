@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import 'package:score_count/models/player.dart';
 
 const DUMMY_PLAYERS = {
@@ -29,3 +29,4 @@ const DUMMY_PLAYERS = {
     points: 0,
   ),
 };
+ */

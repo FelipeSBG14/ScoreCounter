@@ -3,10 +3,10 @@ import 'package:flutter/widgets.dart';
 class Player {
   final String id;
   final String name;
-  final Color color;
-  final int points;
+  late Color color;
+  late int points;
 
-  const Player({
+  Player({
     required this.id,
     required this.name,
     required this.color,
