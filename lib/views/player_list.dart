@@ -75,8 +75,8 @@ class _PlayerListState extends State<PlayerList> {
                   ? GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              childAspectRatio: 1,
+                              maxCrossAxisExtent: 150,
+                              childAspectRatio: 2 / 4,
                               crossAxisSpacing: 0,
                               mainAxisSpacing: 0),
                       itemCount: players.count,

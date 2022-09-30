@@ -47,7 +47,7 @@ class _PlayerTileState extends State<PlayerTile> {
             builder: (BuildContext context) {
               // retorna um objeto do tipo Dialog
               return AlertDialog(
-                title: Text('Jogador ' + widget.player.name),
+                title: Text('Jogador ' + widget.player.name + widget.player.id),
                 content: Text("Deseja deletar ou editar esse jogador ?"),
                 actions: [
                   Row(
@@ -80,65 +80,86 @@ class _PlayerTileState extends State<PlayerTile> {
         child: Container(
           height: MediaQuery.of(context).size.height * height,
           color: widget.player.color,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        widget.player.name,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            shadows: [
+                              Shadow(
+                                  blurRadius: 2,
+                                  color: Colors.black,
+                                  offset: Offset.zero),
+                            ]),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
                     color: Colors.grey,
                   ),
-                  child: Text(
-                    widget.player.name,
-                    style: TextStyle(color: Colors.white, shadows: [
-                      Shadow(
-                          blurRadius: 2,
-                          color: Colors.black,
-                          offset: Offset.zero),
-                    ]),
+                  width: MediaQuery.of(context).size.width * 0.38,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: Colors.white,
+                        ),
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.player.points -= 1;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.remove,
+                              color: Colors.black,
+                            )),
+                      ),
+                      Text(
+                        '${widget.player.points}',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: Colors.white,
+                        ),
+                        child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.player.points += 1;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.black,
+                            )),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  color: Colors.grey,
-                ),
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.player.points -= 1;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                        )),
-                    Text(
-                      '${widget.player.points}',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.player.points += 1;
-                          });
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        )),
-                  ],
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),

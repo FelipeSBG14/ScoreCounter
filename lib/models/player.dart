@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 class Player {
-  final String id;
-  final String name;
+  String id;
+  String name;
   late Color color;
   late int points;
 

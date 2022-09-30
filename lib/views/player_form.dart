@@ -8,12 +8,16 @@ import '../models/player.dart';
 import '../provider/players.dart';
 import 'dart:math' as math;
 
-class PlayerForm extends StatelessWidget {
-  PlayerForm({super.key});
+class PlayerForm extends StatefulWidget {
+  const PlayerForm({super.key});
 
+  @override
+  State<PlayerForm> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<PlayerForm> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {};
-  final TextEditingController _controllerName = TextEditingController();
 
   void loadFormData(Player player) {
     if (player != null) {
@@ -21,16 +25,23 @@ class PlayerForm extends StatelessWidget {
       _formData['name'] = player.name;
       _formData['color'] = player.color;
       _formData['points'] = player.points;
-      _controllerName.text = player.name;
     }
   }
 
+/*   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Player player = ModalRoute.of(context)!.settings.arguments as Player;
+    loadFormData(player);
+  } */
+
+  @override
   Widget build(BuildContext context) {
-/*     final player = ModalRoute.of(context)!.settings.arguments as Player;
+    /*     final player = ModalRoute.of(context)!.settings.arguments as Player;
     loadFormData(player); */
     return Scaffold(
       appBar: AppBar(
-        title: Text('Player Form'),
+        title: Text('Adicione um jogador'),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -64,7 +75,7 @@ class PlayerForm extends StatelessWidget {
   void addOrEdit(context) {
     final isValid = _form.currentState!.validate();
     if (isValid) {
-      _form.currentState!.save();
+      _form.currentState?.save();
       Provider.of<Players>(context, listen: false).put(
         Player(
           id: '', //teste
