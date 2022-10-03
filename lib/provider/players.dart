@@ -5,8 +5,7 @@ import 'package:score_count/data/dummy_players.dart';
 import '../models/player.dart';
 
 class Players with ChangeNotifier {
-  late Map<String, Player> items = {};
-
+  late Map<String?, Player> items = {};
 
   List<Player> get all {
     return [...items.values];
@@ -26,7 +25,7 @@ class Players with ChangeNotifier {
     }
 
     if (player.id != null &&
-        player.id.trim().isNotEmpty &&
+        player.id!.trim().isNotEmpty &&
         items.containsKey(player.id)) {
       items.update(
         player.id,
@@ -58,8 +57,5 @@ class Players with ChangeNotifier {
 
       notifyListeners();
     }
-    
   }
-
-  
 }

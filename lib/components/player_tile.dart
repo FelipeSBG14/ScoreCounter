@@ -47,7 +47,7 @@ class _PlayerTileState extends State<PlayerTile> {
             builder: (BuildContext context) {
               // retorna um objeto do tipo Dialog
               return AlertDialog(
-                title: Text('Jogador ' + widget.player.name + widget.player.id),
+                title: Text('Jogador ' + widget.player.name),
                 content: Text("Deseja deletar ou editar esse jogador ?"),
                 actions: [
                   Row(
@@ -57,7 +57,7 @@ class _PlayerTileState extends State<PlayerTile> {
                         style: ElevatedButton.styleFrom(primary: Colors.green),
                         child: Text("Editar"),
                         onPressed: () {
-                          Navigator.of(context).pushNamed(
+                          Navigator.of(context).popAndPushNamed(
                             AppRoutes.PLAYER_FORM,
                             arguments: widget.player,
                           );

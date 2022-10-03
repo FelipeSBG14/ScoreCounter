@@ -1,8 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import '../models/player.dart';
 import '../provider/players.dart';
@@ -18,8 +14,9 @@ class PlayerForm extends StatefulWidget {
 class _MyWidgetState extends State<PlayerForm> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final Map<String, dynamic> _formData = {};
+  final TextEditingController _controllerName = TextEditingController();
 
-  void loadFormData(Player player) {
+  void editPlayer(Player? player) {
     if (player != null) {
       _formData['id'] = player.id;
       _formData['name'] = player.name;
@@ -32,13 +29,14 @@ class _MyWidgetState extends State<PlayerForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final Player player = ModalRoute.of(context)!.settings.arguments as Player;
-    loadFormData(player);
+    editPlayer(player);
   } */
 
   @override
   Widget build(BuildContext context) {
-    /*     final player = ModalRoute.of(context)!.settings.arguments as Player;
-    loadFormData(player); */
+    final Player? player =
+        ModalRoute.of(context)?.settings.arguments as Player?;
+    editPlayer(player);
     return Scaffold(
       appBar: AppBar(
         title: Text('Adicione um jogador'),
@@ -58,6 +56,7 @@ class _MyWidgetState extends State<PlayerForm> {
                 TextFormField(
                   initialValue: _formData['name'],
                   decoration: InputDecoration(labelText: 'Nome'),
+                  textInputAction: TextInputAction.done,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return 'Nome invalido';
@@ -65,6 +64,7 @@ class _MyWidgetState extends State<PlayerForm> {
                     return null;
                   },
                   onSaved: (value) => _formData['name'] = value,
+                  onFieldSubmitted: (_) => addOrEdit(context),
                 ),
               ],
             )),
@@ -78,7 +78,7 @@ class _MyWidgetState extends State<PlayerForm> {
       _form.currentState?.save();
       Provider.of<Players>(context, listen: false).put(
         Player(
-          id: '', //teste
+          id: _formData['id'], //teste
           name: _formData['name'],
           color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
               .withOpacity(1.0),
