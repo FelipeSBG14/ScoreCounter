@@ -67,7 +67,11 @@ class _PlayerTileState extends State<PlayerTile> {
                         style: ElevatedButton.styleFrom(primary: Colors.red),
                         child: Text("Deletar"),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Provider.of<Players>(
+                            context,
+                            listen: false,
+                          ).remove(widget.player);
+                          Navigator.pop(context);
                         },
                       ),
                     ],
