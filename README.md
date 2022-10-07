@@ -1,16 +1,12 @@
-# score_count
+# A Score Counter developed by me to infinity amount of players
 
-A new Flutter project.
+In this Score Counter you will see an application to count your points in matchs with as many players as you want !
 
-## Getting Started
+## Let´s see how looks the app ! 
 
-This project is a starting point for a Flutter application.
+This is the frist screen:
 
-A few resources to get you started if this is your first Flutter project:
+<img> 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
