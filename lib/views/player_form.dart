@@ -7,10 +7,16 @@ import 'package:provider/provider.dart';
 import '../models/player.dart';
 import '../provider/players.dart';
 
-class PlayerForm extends StatelessWidget {
-  
+class PlayerForm extends StatefulWidget {
+  @override
+  State<PlayerForm> createState() => _PlayerFormState();
+}
+
+class _PlayerFormState extends State<PlayerForm> {
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
   final Map<String, dynamic> _formData = {};
+
   final TextEditingController _controllerName = TextEditingController();
 
   void loadFormData(Player player) {
@@ -23,13 +29,13 @@ class PlayerForm extends StatelessWidget {
     }
   }
 
-
-  @override void didChangeDependencies() {
+  @override
+  void didChangeDependencies() {
     super.didChangeDependencies();
   }
-  
-  Widget build(BuildContext context) {
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Player Form'),
