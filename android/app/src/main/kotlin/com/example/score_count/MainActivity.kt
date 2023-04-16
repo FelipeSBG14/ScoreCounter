@@ -1,4 +1,4 @@
-package com.example.score_count
+package com.felipeapk.score_counter
 
 import io.flutter.embedding.android.FlutterActivity
 
