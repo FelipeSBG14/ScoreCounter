@@ -26,66 +26,76 @@ class _PlayerListState extends State<PlayerList> {
     );
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.grey,
-          appBar: AppBar(
-            title: Text('Marcador de Pontos'),
-            actions: <Widget>[
-              // This button presents popup menu items.
-              PopupMenuButton<Menu>(
-                  // Callback that sets the selected popup menu item.
-                  onSelected: (Menu item) {
-                    if (item == Menu.itemTwo) {
-                      Navigator.of(context).pushNamed(AppRoutes.PLAYER_FORM);
-                    }
-                    if (item == Menu.itemOne) {
-                      players.items.forEach((key, players) {
-                        players.points = 0;
-                      });
-                    }
-                    setState(() {
-                      _selectedMenu = item.name;
+        backgroundColor: Colors.grey,
+        appBar: AppBar(
+          title: const Text('Marcador de Pontos'),
+          actions: <Widget>[
+            // This button presents popup menu items.
+            PopupMenuButton<Menu>(
+                // Callback that sets the selected popup menu item.
+                onSelected: (Menu item) {
+                  if (item == Menu.itemTwo) {
+                    Navigator.of(context).pushNamed(AppRoutes.PLAYER_FORM);
+                  }
+                  if (item == Menu.itemOne) {
+                    players.items.forEach((key, players) {
+                      players.points = 0;
                     });
-                  },
-                  itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
-                        const PopupMenuItem<Menu>(
-                          value: Menu.itemOne,
-                          child: Text('Zerar pontos'),
-                        ),
-                        const PopupMenuItem<Menu>(
-                          value: Menu.itemTwo,
-                          child: Text('Adicionar jogador'),
-                        ),
-                      ]),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.PLAYER_FORM);
-            },
-            child: Icon(Icons.add),
-          ),
-          body: players.count == 0
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text('Nenhum jogador adicionado :(')],
+                  }
+                  setState(() {
+                    _selectedMenu = item.name;
+                  });
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
+                      const PopupMenuItem<Menu>(
+                        value: Menu.itemOne,
+                        child: Text('Zerar pontos'),
+                      ),
+                      const PopupMenuItem<Menu>(
+                        value: Menu.itemTwo,
+                        child: Text('Adicionar jogador'),
+                      ),
+                    ]),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed(AppRoutes.PLAYER_FORM);
+          },
+          child: const Icon(Icons.add),
+        ),
+        body: players.count == 0
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Nenhum jogador adicionado :(',
+                    ),
+                  ],
+                ),
+              )
+            : players.count > 4
+                ? GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 150,
+                      childAspectRatio: 2 / 4,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
+                    ),
+                    itemCount: players.count,
+                    itemBuilder: (ctx, i) => PlayerTile(
+                      players.byIndex(i),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: players.count,
+                    itemBuilder: (ctx, i) => PlayerTile(
+                      players.byIndex(i),
+                    ),
                   ),
-                )
-              : players.count > 4
-                  ? GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 150,
-                              childAspectRatio: 2 / 4,
-                              crossAxisSpacing: 0,
-                              mainAxisSpacing: 0),
-                      itemCount: players.count,
-                      itemBuilder: (ctx, i) => PlayerTile(players.byIndex(i)),
-                    )
-                  : ListView.builder(
-                      itemCount: players.count,
-                      itemBuilder: (ctx, i) => PlayerTile(players.byIndex(i)),
-                    )),
+      ),
     );
   }
 }

@@ -52,6 +52,7 @@ class _MyWidgetState extends State<PlayerForm> {
         child: Form(
             key: _form,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
                   initialValue: _formData['name'],
