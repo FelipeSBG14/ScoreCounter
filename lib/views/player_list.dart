@@ -8,6 +8,7 @@ import 'package:score_count/models/player.dart';
 import 'package:score_count/routes/app_routes.dart';
 
 import '../provider/players.dart';
+import '../ui/fonts/app_fonts.dart';
 
 enum Menu { itemOne, itemTwo, itemThree, itemFour }
 
@@ -28,7 +29,13 @@ class _PlayerListState extends State<PlayerList> {
       child: Scaffold(
         backgroundColor: Colors.grey,
         appBar: AppBar(
-          title: const Text('Marcador de Pontos'),
+          title: Text(
+            'Marcador de Pontos',
+            style: AppFonts.primaryFont(
+                MediaQuery.of(context).size.height * 0.026),
+          ),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
           actions: <Widget>[
             // This button presents popup menu items.
             PopupMenuButton<Menu>(
@@ -40,6 +47,7 @@ class _PlayerListState extends State<PlayerList> {
                   if (item == Menu.itemOne) {
                     players.items.forEach((key, players) {
                       players.points = 0;
+                      players.firstPoint = false;
                     });
                   }
                   setState(() {
@@ -47,20 +55,36 @@ class _PlayerListState extends State<PlayerList> {
                   });
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<Menu>>[
-                      const PopupMenuItem<Menu>(
+                      PopupMenuItem<Menu>(
                         value: Menu.itemOne,
-                        child: Text('Zerar pontos'),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.exposure_zero_outlined),
+                            SizedBox(
+                              width: 25,
+                            ),
+                            Text('Zerar pontos'),
+                          ],
+                        ),
                       ),
-                      const PopupMenuItem<Menu>(
+                      PopupMenuItem<Menu>(
                         value: Menu.itemTwo,
-                        child: Text('Adicionar jogador'),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.person_add),
+                            SizedBox(
+                              width: 25,
+                            ),
+                            Text('Adicionar jogador'),
+                          ],
+                        ),
                       ),
                     ]),
           ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(AppRoutes.PLAYER_FORM);
+            Navigator.of(context).popAndPushNamed(AppRoutes.PLAYER_FORM);
           },
           child: const Icon(Icons.add),
         ),

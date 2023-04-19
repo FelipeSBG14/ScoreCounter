@@ -34,6 +34,7 @@ class Players with ChangeNotifier {
           name: player.name,
           color: player.color,
           points: player.points,
+          firstPoint: player.firstPoint,
         ),
       );
     } else {
@@ -41,11 +42,11 @@ class Players with ChangeNotifier {
       items.putIfAbsent(
         id,
         () => Player(
-          id: id,
-          color: player.color,
-          name: player.name,
-          points: player.points,
-        ),
+            id: id,
+            color: player.color,
+            name: player.name,
+            points: player.points,
+            firstPoint: player.firstPoint),
       );
     }
     notifyListeners();

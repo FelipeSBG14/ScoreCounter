@@ -5,11 +5,13 @@ class Player {
   final String name;
   final Color color;
   late int points;
+  late bool firstPoint;
 
- Player({
+  Player({
     this.id,
     required this.name,
     required this.color,
     required this.points,
+    required this.firstPoint,
   });
 }

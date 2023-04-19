@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:score_count/ui/fonts/app_fonts.dart';
 
 import '../models/player.dart';
 import '../provider/players.dart';
@@ -21,6 +23,9 @@ class _PlayerTileState extends State<PlayerTile> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String hour = DateFormat('mm:ss').format(now);
+
     final Players players = Provider.of(
       context,
     );
@@ -47,15 +52,24 @@ class _PlayerTileState extends State<PlayerTile> {
             builder: (BuildContext context) {
               // retorna um objeto do tipo Dialog
               return AlertDialog(
-                title: Text('Jogador ' + widget.player.name),
-                content: Text("Deseja deletar ou editar esse jogador ?"),
+                title: Text(
+                  'Jogador ${widget.player.name}',
+                  style: AppFonts.primaryFont(
+                      MediaQuery.of(context).size.height * 0.025),
+                ),
+                content: Text(
+                  "Deseja deletar ou editar esse jogador ?",
+                  style: AppFonts.secundaryFont(
+                      MediaQuery.of(context).size.height * 0.020),
+                ),
                 actions: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.green),
-                        child: Text("Editar"),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green),
+                        child: const Text("Editar"),
                         onPressed: () {
                           Navigator.of(context).popAndPushNamed(
                             AppRoutes.PLAYER_FORM,
@@ -64,8 +78,9 @@ class _PlayerTileState extends State<PlayerTile> {
                         },
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.red),
-                        child: Text("Deletar"),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red),
+                        child: const Text("Deletar"),
                         onPressed: () {
                           Provider.of<Players>(
                             context,
@@ -93,7 +108,7 @@ class _PlayerTileState extends State<PlayerTile> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                       color: Colors.white,
                     ),
@@ -101,21 +116,14 @@ class _PlayerTileState extends State<PlayerTile> {
                       padding: const EdgeInsets.all(5.0),
                       child: Text(
                         widget.player.name,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            shadows: [
-                              Shadow(
-                                  blurRadius: 2,
-                                  color: Colors.black,
-                                  offset: Offset.zero),
-                            ]),
+                        style: AppFonts.primaryFont(
+                            MediaQuery.of(context).size.height * 0.030),
                       ),
                     ),
                   ),
                 ),
                 Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                     color: Colors.grey,
                   ),
@@ -124,7 +132,7 @@ class _PlayerTileState extends State<PlayerTile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                           color: Colors.white,
                         ),
@@ -132,19 +140,21 @@ class _PlayerTileState extends State<PlayerTile> {
                             onPressed: () {
                               setState(() {
                                 widget.player.points -= 1;
+                                widget.player.firstPoint = true;
                               });
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.remove,
                               color: Colors.black,
                             )),
                       ),
                       Text(
                         '${widget.player.points}',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        style: AppFonts.pointsFont(
+                            MediaQuery.of(context).size.height * 0.030),
                       ),
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(25)),
                           color: Colors.white,
                         ),
@@ -152,16 +162,28 @@ class _PlayerTileState extends State<PlayerTile> {
                             onPressed: () {
                               setState(() {
                                 widget.player.points += 1;
+                                widget.player.firstPoint = true;
                               });
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.add,
                               color: Colors.black,
                             )),
                       ),
                     ],
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Visibility(
+                  visible: widget.player.firstPoint,
+                  child: Text(
+                    hour,
+                    style: AppFonts.pointsFont(
+                        MediaQuery.of(context).size.height * 0.015),
+                  ),
+                ),
               ],
             ),
           ),

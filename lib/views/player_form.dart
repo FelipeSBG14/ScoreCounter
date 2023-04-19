@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:score_count/components/custom_form_field.dart';
+import 'package:score_count/routes/app_routes.dart';
+import 'package:score_count/ui/fonts/app_fonts.dart';
 import '../models/player.dart';
 import '../provider/players.dart';
 import 'dart:math' as math;
@@ -39,7 +42,14 @@ class _MyWidgetState extends State<PlayerForm> {
     editPlayer(player);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adicione um jogador'),
+        title: Text(
+          'Adicione um jogador',
+          style:
+              AppFonts.primaryFont(MediaQuery.of(context).size.height * 0.020),
+        ),
+        elevation: 2,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -56,17 +66,32 @@ class _MyWidgetState extends State<PlayerForm> {
               children: [
                 TextFormField(
                   initialValue: _formData['name'],
-                  decoration: InputDecoration(labelText: 'Nome'),
+                  decoration: const InputDecoration(
+                    labelText: 'Nome do Jogador / Equipe',
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            25,
+                          ),
+                        ),
+                        borderSide: BorderSide(color: Colors.orange, width: 4)),
+                  ),
                   textInputAction: TextInputAction.done,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Nome invalido';
+                      return 'Coloque o nome de um jogador';
                     }
                     return null;
                   },
                   onSaved: (value) => _formData['name'] = value,
                   onFieldSubmitted: (_) => addOrEdit(context),
                 ),
+                // CustomFormField(
+                //   formData: _formData['name'],
+                //   label: 'Nome do Jogador / Equipe',
+                //   onSaved: (value) => _formData['name'] = value,
+                //   onSubmit: (_) => addOrEdit(context),
+                // ),
               ],
             )),
       ),
@@ -84,9 +109,10 @@ class _MyWidgetState extends State<PlayerForm> {
           color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
               .withOpacity(1.0),
           points: 0,
+          firstPoint: false,
         ),
       );
-      Navigator.of(context).pop();
+      Navigator.popAndPushNamed(context, AppRoutes.PLAYERS_LIST);
     }
   }
 }

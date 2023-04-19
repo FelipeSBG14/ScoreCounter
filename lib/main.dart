@@ -20,12 +20,13 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
+        initialRoute: AppRoutes.PLAYER_FORM,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: PlayerList(),
         routes: {
           AppRoutes.PLAYER_FORM: (_) => PlayerForm(),
+          AppRoutes.PLAYERS_LIST: (_) => PlayerList(),
         },
       ),
     );
